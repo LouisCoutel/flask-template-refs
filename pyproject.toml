@@ -1,0 +1,32 @@
+[project]
+name = "templates-refs"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "LouisCoutel", email = "louiscoutel75@gmail.com" }
+]
+dependencies = [
+    "flask>=3.0.3",
+    "pytest>=8.3.3",
+    "psutil>=6.1.0",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+packages = [
+    { include = "templates_refs" }
+]
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["templates_refs"]
