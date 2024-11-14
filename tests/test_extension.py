@@ -5,7 +5,6 @@ from flask import render_template
 from flask.testing import FlaskClient
 
 from flask_template_refs.references import refs
-from flask_template_refs.errors import FolderNotFoundError
 from flask_template_refs.ftr import map_dir, resolve_tf
 
 
@@ -32,6 +31,8 @@ def resolve_tf_pathLike(root_path):
 
 def resolve_tf_not_provided(root_path):
     assert resolve_tf(root_path, None) == root_path / "templates"
+
+
 
 
 def test_refs_match_templates(root_path):

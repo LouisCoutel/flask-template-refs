@@ -32,3 +32,6 @@ packages = ["flask_template_refs"]
 
 [tool.rye.scripts]
 test = "pytest tests/test_extension.py"
+
+[tool.pytest.ini_options]
+log_cli_level = "INFO"

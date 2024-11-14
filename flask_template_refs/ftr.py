@@ -52,7 +52,6 @@ class FlaskTemplateRefs():
     """ Manages creating templates references, writing to reference stub file to enable auto-completion and initializing the app. """
 
     _refs_file = Path(__file__).parent / "references.pyi"
-    template_folder_path: Path
     refs: dict
 
     @classmethod
@@ -64,7 +63,7 @@ class FlaskTemplateRefs():
         cls._refs_file.write_text(str.join("\n", lines))
 
     def __init__(self, app: Flask) -> None:
-        app_root_path = Path(app.instance_path).parent
+        app_root_path = Path(app.instance_path).parent / app.name
         template_folder_path = resolve_tf(
             app_root_path, app.template_folder)
 
