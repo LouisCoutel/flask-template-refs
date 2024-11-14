@@ -1,6 +1,6 @@
 [project]
 name = "flask-template-refs"
-version = "0.1.0"
+version = "0.9.0"
 description = "Flask extension that creates template references, enabling simple access to templates with dot notation and auto-completion."
 authors = [
     { name = "LouisCoutel", email = "louiscoutel75@gmail.com" }
@@ -12,7 +12,7 @@ dependencies = [
 readme = "README.md"
 requires-python = ">= 3.8"
 packages = [
-    { include = "templates_refs" }
+    { include = "flask_template_refs" }
 ]
 
 
@@ -28,4 +28,7 @@ dev-dependencies = []
 allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["templates_refs"]
+packages = ["flask_template_refs"]
+
+[tool.rye.scripts]
+test = "pytest tests/test_extension.py"
