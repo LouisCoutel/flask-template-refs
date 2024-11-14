@@ -1,36 +1,41 @@
-from flask import render_template
+import os
 
 from pathlib import Path
-
+from flask import render_template
 from flask.testing import FlaskClient
 
-from templates_refs.errors import FolderNotFoundError, NoTemplatesError
-from templates_refs.map_templates import map_templates
 from templates_refs.references import refs
-
-folders = Path(__file__).parent.parent / "test_templates_folders"
-
-
-def test_map_no_tf(app_tf_not_set):
-    refs = map_templates(app_tf_not_set)
-
-    assert isinstance(refs, FolderNotFoundError)
+from templates_refs.errors import FolderNotFoundError, NoTemplatesError
+from templates_refs.jinja_templates_refs import map_dir, resolve_tf
 
 
-def test_map_no_templates(app_tf_empty):
-    refs = map_templates(app_tf_empty)
+def test_map_empty_dir(root_path):
+    result = map_dir(root_path / "empty")
 
-    assert isinstance(refs, NoTemplatesError)
-
-
-def test_map_with_templates(app_tf_set):
-    refs = map_templates(app_tf_set)
-
-    assert not isinstance(refs, NoTemplatesError)
+    assert not result
 
 
-def test_refs_match_templates(app_tf_set):
-    refs = map_templates(app_tf_set)
+def test_map_not_empty_dir(root_path):
+    result = map_dir(root_path / "templates")
+
+    assert result
+
+
+def resolve_tf_str(root_path):
+    assert resolve_tf(root_path, "templates") == root_path / "templates"
+
+
+def resolve_tf_pathLike(root_path):
+    assert resolve_tf(root_path, os.path.join(
+        "templates", "level_2")) == Path(__file__).parent / "templates" / "level_2"
+
+
+def resolve_tf_not_provided(root_path):
+    assert resolve_tf(root_path, None) == root_path / "templates"
+
+
+def test_refs_match_templates(root_path):
+    refs = map_dir(root_path / "templates")
     expected_refs = ["test_1", "test_2", "level_2_test_1",
                      "level_3_test_2", "level_3_test_1"]
 
@@ -39,8 +44,8 @@ def test_refs_match_templates(app_tf_set):
     assert all([ref == expected_refs[i] for i, ref in enumerate(refs)])
 
 
-def test_globals_refs_set(app_tf_set):
-    assert app_tf_set.jinja_env.globals.get('template_refs') is not None
+def test_globals_refs_set(app):
+    assert app.jinja_env.globals.get('template_refs') is not None
 
 
 def test_refs_file_written():
@@ -48,8 +53,8 @@ def test_refs_file_written():
                refs.level_3_test_2, refs.level_3_test_1])
 
 
-def test_render_template(app_tf_set):
-    with app_tf_set.app_context():
+def test_render_template(app):
+    with app.app_context():
         result = render_template(refs.test_1)
         assert result == "<p>TEST</p>"
 

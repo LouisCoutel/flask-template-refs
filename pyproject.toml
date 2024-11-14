@@ -1,14 +1,13 @@
 [project]
 name = "templates-refs"
 version = "0.1.0"
-description = "Add your description here"
+description = "Flask extension that creates template references, enabling simple access to templates with dot notation and auto-completion."
 authors = [
     { name = "LouisCoutel", email = "louiscoutel75@gmail.com" }
 ]
 dependencies = [
     "flask>=3.0.3",
     "pytest>=8.3.3",
-    "psutil>=6.1.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"

@@ -1,53 +1,25 @@
 import flask
 import pytest
-from flask.app import Flask
+
 from pathlib import Path
+from flask.app import Flask
 
-from templates_refs.jinja_templates_refs import JinjaTemplatesRefs
 from templates_refs.references import refs
-
-template_folder = Path(
-    __file__).parent / "templates"
-empty_folder = Path(
-    __file__).parent / "empty"
-bp_folder = Path(
-    __file__).parent / "bp_templates"
+from templates_refs.jinja_templates_refs import JinjaTemplatesRefs
 
 
 @pytest.fixture
-def app_tf_not_set():
+def root_path():
+    yield Path(__file__).parent.parent
+
+
+@pytest.fixture
+def app():
     app = flask.Flask("test_app")
-
-    JinjaTemplatesRefs(app)
-
-    yield app
-
-
-@pytest.fixture
-def app_tf_empty():
-    app = flask.Flask("test_app", template_folder=empty_folder)
-
-    JinjaTemplatesRefs(app)
-
-    yield app
-
-
-@pytest.fixture
-def app_tf_set():
-    app = flask.Flask("test_app", template_folder=template_folder)
-
-    JinjaTemplatesRefs(app)
-
-    yield app
-
-
-@pytest.fixture
-def app_with_bp():
-    app = flask.Flask("test_app", template_folder=template_folder)
 
     bp_1 = flask.Blueprint("bp_1", "bp_1", url_prefix="/bp_1")
     bp_2 = flask.Blueprint(
-        "bp_2", "bp_2", url_prefix="/bp_2", template_folder=bp_folder)
+        "bp_2", "bp_2", url_prefix="/bp_2", template_folder="bp_templates")
 
     @bp_1.get("/")
     def test_1():
@@ -66,5 +38,5 @@ def app_with_bp():
 
 
 @pytest.fixture
-def client(app_with_bp: Flask):
-    yield app_with_bp.test_client()
+def client(app: Flask):
+    yield app.test_client()

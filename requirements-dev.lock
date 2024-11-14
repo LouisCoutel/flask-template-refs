@@ -29,8 +29,6 @@ packaging==24.2
     # via pytest
 pluggy==1.5.0
     # via pytest
-psutil==6.1.0
-    # via templates-refs
 pytest==8.3.3
     # via templates-refs
 werkzeug==3.1.3
