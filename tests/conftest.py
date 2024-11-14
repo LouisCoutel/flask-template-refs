@@ -4,8 +4,8 @@ import pytest
 from pathlib import Path
 from flask.app import Flask
 
-from templates_refs.references import refs
-from templates_refs.jinja_templates_refs import JinjaTemplatesRefs
+from flask_template_refs.references import refs
+from flask_template_refs.ftr import FlaskTemplateRefs
 
 
 @pytest.fixture
@@ -32,7 +32,7 @@ def app():
     app.register_blueprint(bp_1)
     app.register_blueprint(bp_2)
 
-    JinjaTemplatesRefs(app)
+    FlaskTemplateRefs(app)
 
     yield app
 

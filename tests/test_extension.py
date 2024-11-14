@@ -4,9 +4,9 @@ from pathlib import Path
 from flask import render_template
 from flask.testing import FlaskClient
 
-from templates_refs.references import refs
-from templates_refs.errors import FolderNotFoundError, NoTemplatesError
-from templates_refs.jinja_templates_refs import map_dir, resolve_tf
+from flask_template_refs.references import refs
+from flask_template_refs.errors import FolderNotFoundError
+from flask_template_refs.ftr import map_dir, resolve_tf
 
 
 def test_map_empty_dir(root_path):
@@ -39,13 +39,17 @@ def test_refs_match_templates(root_path):
     expected_refs = ["test_1", "test_2", "level_2_test_1",
                      "level_3_test_2", "level_3_test_1"]
 
-    assert not isinstance(refs, NoTemplatesError)
-    assert not isinstance(refs, FolderNotFoundError)
+    assert refs
     assert all([ref == expected_refs[i] for i, ref in enumerate(refs)])
 
 
 def test_globals_refs_set(app):
-    assert app.jinja_env.globals.get('template_refs') is not None
+
+    expected_refs = ["test_1", "test_2", "level_2_test_1",
+                     "level_3_test_2", "level_3_test_1"]
+
+    for ref in expected_refs:
+        assert app.jinja_env.globals.get(ref) is not None
 
 
 def test_refs_file_written():

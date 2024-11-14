@@ -1,5 +1,5 @@
 [project]
-name = "templates-refs"
+name = "flask-template-refs"
 version = "0.1.0"
 description = "Flask extension that creates template references, enabling simple access to templates with dot notation and auto-completion."
 authors = [

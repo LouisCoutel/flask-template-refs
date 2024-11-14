@@ -6,8 +6,7 @@ from pathlib import Path
 
 from .errors import FolderNotFoundError
 
-
-from templates_refs import references
+from . import references
 
 
 def map_dir(dir_path: Path) -> dict:
@@ -49,7 +48,7 @@ def resolve_tf(app_root_path: Path, template_folder: str | PathLike | Path) -> P
     raise FolderNotFoundError(template_folder)
 
 
-class JinjaTemplatesRefs():
+class FlaskTemplateRefs():
     """ Manages creating templates references, writing to reference stub file to enable auto-completion and initializing the app. """
 
     _refs_file = Path(__file__).parent / "references.pyi"
@@ -97,14 +96,6 @@ class JinjaTemplatesRefs():
 
                 self.refs.update(bp_refs)
 
-    def _create_attributes(self):
-        """ Sets references as attributes of the TemplateRefs instance, matching those defined in the class stub file. """
-
-        refs = references.refs
-
-        for key, value in self.refs.items():
-            refs.__setattr__(key, value)
-
     def _write_refs(self) -> None:
         """ Updates TemplateRefs stub file with template references as attributes, which enables auto-completion. """
 
@@ -117,7 +108,16 @@ class JinjaTemplatesRefs():
 
         self._refs_file.write_text(str.join("\n", lines))
 
+    def _create_attributes(self) -> None:
+        """ Sets references as attributes of the TemplateRefs instance, matching those defined in the class stub file. """
+
+        refs = references.refs
+
+        for key, value in self.refs.items():
+            refs.__setattr__(key, value)
+
     def _init_app(self, app: Flask) -> None:
         """ Sets the self.refs dict as a Jinja global accessible in templates """
 
-        app.jinja_env.globals.update(template_refs=self.refs)
+        for key, value in self.refs.items():
+            app.jinja_env.globals[key] = value
