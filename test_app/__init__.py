@@ -22,4 +22,5 @@ def create_app(test_config=None):
     app.register_blueprint(bp_2)
 
     FlaskTemplateRefs(app)
+    
     return app
