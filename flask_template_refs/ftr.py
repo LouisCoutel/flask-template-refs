@@ -119,4 +119,4 @@ class FlaskTemplateRefs():
         """ Sets the self.refs dict as a Jinja global accessible in templates """
 
         for key, value in self.refs.items():
-            app.jinja_env.globals[key] = value
+            app.jinja_env.globals[key.upper()] = value

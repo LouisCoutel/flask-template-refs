@@ -33,8 +33,6 @@ def resolve_tf_not_provided(root_path):
     assert resolve_tf(root_path, None) == root_path / "templates"
 
 
-
-
 def test_refs_match_templates(root_path):
     refs = map_dir(root_path / "templates")
     expected_refs = ["test_1", "test_2", "level_2_test_1",
@@ -46,8 +44,8 @@ def test_refs_match_templates(root_path):
 
 def test_globals_refs_set(app):
 
-    expected_refs = ["test_1", "test_2", "level_2_test_1",
-                     "level_3_test_2", "level_3_test_1"]
+    expected_refs = ["TEST_1", "TEST_2", "LEVEL_2_TEST_1",
+                     "LEVEL_3_TEST_2", "LEVEL_3_TEST_1"]
 
     for ref in expected_refs:
         assert app.jinja_env.globals.get(ref) is not None
