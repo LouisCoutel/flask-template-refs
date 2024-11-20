@@ -4,5 +4,6 @@ class TemplateRefs():
     level_2_test_1: str
     level_3_test_2: str
     level_3_test_1: str
-    bp_test: str
+    bp_2_specific: str
+    bp_2_test_1: str
 refs: TemplateRefs
