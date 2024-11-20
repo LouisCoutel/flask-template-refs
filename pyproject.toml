@@ -20,9 +20,19 @@ packages = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.rye]
+[tool.uv]
 managed = true
-dev-dependencies = []
+dev-dependencies = [
+    "pylint>=3.2.7",
+    "ruff>=0.7.4",
+]
+[tool.ruff]
+fix = true
+show-fixes = true
+src = [".","flask_template_refs"]
+
+[tool.ruff.lint]
+select= ["E","F","PL","W"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
@@ -30,8 +40,12 @@ allow-direct-references = true
 [tool.hatch.build.targets.wheel]
 packages = ["flask_template_refs"]
 
-[tool.rye.scripts]
-test = "pytest tests/test_extension.py"
-
 [tool.pytest.ini_options]
-log_cli_level = "INFO"
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
+log_cli = "True"
+log_cli_level = "DEBUG"
+
