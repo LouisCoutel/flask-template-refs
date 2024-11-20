@@ -3,8 +3,6 @@
 from pathlib import Path
 
 
-
-
 class FolderNotFoundError(Exception):
     """ The specified template folder does not exists. """
 
