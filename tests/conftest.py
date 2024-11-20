@@ -1,3 +1,4 @@
+import logging
 import pytest
 
 from pathlib import Path
@@ -16,6 +17,7 @@ def app():
     app = create_app()
 
     yield app
+    logging.info("teardown")
 
 
 @pytest.fixture
